@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.1.5 – The Incomplete Project Charter</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      padding: 24px;
+    }
+
+    header {
+      background: #1e3a5f;
+      color: white;
+      padding: 24px 32px;
+      border-radius: 12px;
+      margin-bottom: 28px;
+    }
+
+    header h1 { font-size: 1.6rem; margin-bottom: 6px; }
+    header p  { font-size: 0.95rem; opacity: 0.85; }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .section h2 {
+      font-size: 1.1rem;
+      color: #1e3a5f;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    /* Charter card */
+    .charter {
+      background: #f7fafc;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      line-height: 1.8;
+    }
+
+    .charter .field { margin-bottom: 10px; }
+    .charter .label { font-weight: 700; color: #2d3748; }
+
+    .charter ul {
+      margin: 4px 0 0 20px;
+    }
+
+    /* Checklist table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    thead th {
+      background: #1e3a5f;
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    thead th:nth-child(2),
+    thead th:nth-child(3) { text-align: center; width: 110px; }
+    thead th:nth-child(4) { width: 260px; }
+
+    tbody tr { border-bottom: 1px solid #e2e8f0; }
+    tbody tr:nth-child(even) { background: #f7fafc; }
+
+    tbody td { padding: 12px 14px; vertical-align: middle; }
+
+    tbody td:nth-child(2),
+    tbody td:nth-child(3) { text-align: center; }
+
+    .radio-group {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .radio-group input[type="radio"] {
+      accent-color: #1e3a5f;
+      width: 16px; height: 16px;
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 56px;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #1e3a5f;
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.1);
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 11px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    .btn-check   { background: #1e3a5f; color: white; }
+    .btn-check:hover { background: #163057; }
+
+    .btn-reset   { background: #e2e8f0; color: #2d3748; }
+    .btn-reset:hover { background: #cbd5e0; }
+
+    .btn-reveal  { background: #f6ad55; color: #744210; }
+    .btn-reveal:hover { background: #ed8936; }
+
+    /* Feedback */
+    #feedback-banner {
+      display: none;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .fb-partial { background: #fefcbf; border: 1px solid #f6e05e; color: #744210; }
+    .fb-perfect { background: #c6f6d5; border: 1px solid #68d391; color: #22543d; }
+
+    /* Row result highlights */
+    .row-correct td { background: #f0fff4 !important; }
+    .row-wrong   td { background: #fff5f5 !important; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    .badge-correct { background: #c6f6d5; color: #22543d; }
+    .badge-wrong   { background: #fed7d7; color: #742a2a; }
+
+    /* Answer key panel */
+    #answer-key {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .ak-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .ak-table thead th {
+      background: #2c5282;
+      color: white;
+      padding: 9px 14px;
+    }
+
+    .ak-table tbody td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    .ak-table tbody tr:nth-child(even) { background: #f7fafc; }
+
+    .yes { color: #276749; font-weight: 700; }
+    .no  { color: #c53030; font-weight: 700; }
+
+    .score-display {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 700px) {
+      thead th:nth-child(4) { display: none; }
+      tbody td:nth-child(4) { display: none; }
+      body { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>2.1.5 – The Incomplete Project Charter</h1>
+  <p>Review the draft project charter below. Then use the checklist to evaluate each element.</p>
+</header>
+
+<!-- CHARTER CARD -->
+<div class="section">
+  <h2>📄 Draft Project Charter</h2>
+  <div class="charter">
+    <div class="field"><span class="label">Project Title:</span> Distribution Center Upgrade</div>
+    <div class="field"><span class="label">Project Manager:</span> Sarah Chen</div>
+    <div class="field">
+      <span class="label">Description:</span>
+      We need to fix the problems in our distribution center. The current system is old and causing issues.
+      We'll implement a new warehouse management system and make improvements to operations.
+    </div>
+    <div class="field"><span class="label">Budget:</span> Approximately $500,000</div>
+    <div class="field"><span class="label">Timeline:</span> Start in January, finish sometime in the summer</div>
+    <div class="field">
+      <span class="label">Stakeholders:</span>
+      <ul>
+        <li>CEO</li>
+        <li>Operations Team</li>
+        <li>IT Department</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section">
+  <h2>✅ Evaluation Checklist</h2>
+  <p style="margin-bottom:16px; color:#4a5568; font-size:0.9rem;">
+    For each element, mark whether it is <strong>Present</strong> (included at all) and <strong>Complete</strong> (sufficient detail). Then add a note explaining your reasoning.
+  </p>
+
+  <table id="checklist-table">
+    <thead>
+      <tr>
+        <th>#&nbsp; Element</th>
+        <th>Present?</th>
+        <th>Complete?</th>
+        <th>Your Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Row template repeated for each element -->
+      <tr data-present="yes" data-complete="no">
+        <td><strong>1.</strong> Project Title &amp; Description</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p1" value="yes"> Yes</label>
+            <label><input type="radio" name="p1" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c1" value="yes"> Yes</label>
+            <label><input type="radio" name="c1" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="no" data-complete="no">
+        <td><strong>2.</strong> Project Objective / Purpose</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p2" value="yes"> Yes</label>
+            <label><input type="radio" name="p2" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c2" value="yes"> Yes</label>
+            <label><input type="radio" name="c2" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="yes" data-complete="no">
+        <td><strong>3.</strong> Project Scope (High-Level)</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p3" value="yes"> Yes</label>
+            <label><input type="radio" name="p3" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c3" value="yes"> Yes</label>
+            <label><input type="radio" name="c3" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="no" data-complete="no">
+        <td><strong>4.</strong> Deliverables</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p4" value="yes"> Yes</label>
+            <label><input type="radio" name="p4" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c4" value="yes"> Yes</label>
+            <label><input type="radio" name="c4" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="yes" data-complete="no">
+        <td><strong>5.</strong> Schedule Milestones</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p5" value="yes"> Yes</label>
+            <label><input type="radio" name="p5" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c5" value="yes"> Yes</label>
+            <label><input type="radio" name="c5" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="yes" data-complete="no">
+        <td><strong>6.</strong> Budget Estimate</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p6" value="yes"> Yes</label>
+            <label><input type="radio" name="p6" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c6" value="yes"> Yes</label>
+            <label><input type="radio" name="c6" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="yes" data-complete="no">
+        <td><strong>7.</strong> Project Manager &amp; Authority Level</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p7" value="yes"> Yes</label>
+            <label><input type="radio" name="p7" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c7" value="yes"> Yes</label>
+            <label><input type="radio" name="c7" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+
+      <tr data-present="yes" data-complete="no">
+        <td><strong>8.</strong> Stakeholders &amp; Sponsor</td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="p8" value="yes"> Yes</label>
+            <label><input type="radio" name="p8" value="no"> No</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="c8" value="yes"> Yes</label>
+            <label><input type="radio" name="c8" value="no"> No</label>
+          </div>
+        </td>
+        <td><textarea placeholder="What's missing or what's okay about this?"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="btn-row">
+    <button class="btn-check" onclick="checkAnswers()">Check My Answers</button>
+    <button class="btn-reveal" onclick="toggleAnswerKey()">Show / Hide Answer Key</button>
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
+  </div>
+
+  <div id="feedback-banner"></div>
+</div>
+
+<!-- ANSWER KEY (hidden until revealed) -->
+<div id="answer-key" class="section">
+  <h2>🔑 Answer Key</h2>
+  <table class="ak-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Present?</th>
+        <th>Complete?</th>
+        <th>Instructor Feedback</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1.</strong> Project Title &amp; Description</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Title is okay, but description is too vague ("fix problems," "make improvements").</td>
+      </tr>
+      <tr>
+        <td><strong>2.</strong> Project Objective / Purpose</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td>Doesn't explain WHY the project is being done or what business value will be achieved.</td>
+      </tr>
+      <tr>
+        <td><strong>3.</strong> Project Scope (High-Level)</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Mentions WMS and "improvements" but not specific about what's in or out of scope.</td>
+      </tr>
+      <tr>
+        <td><strong>4.</strong> Deliverables</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td>No specific deliverables are listed anywhere in the charter.</td>
+      </tr>
+      <tr>
+        <td><strong>5.</strong> Schedule Milestones</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Very vague ("sometime in summer"); no milestones or intermediate dates defined.</td>
+      </tr>
+      <tr>
+        <td><strong>6.</strong> Budget Estimate</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Has a number but no breakdown, contingency, or confidence level noted.</td>
+      </tr>
+      <tr>
+        <td><strong>7.</strong> PM &amp; Authority Level</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Names the PM but doesn't define her authority level or decision-making power.</td>
+      </tr>
+      <tr>
+        <td><strong>8.</strong> Stakeholders &amp; Sponsor</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td>Lists some stakeholders but no project sponsor is identified and the list is incomplete.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const answers = [
+    { present: 'yes', complete: 'no' },
+    { present: 'no',  complete: 'no' },
+    { present: 'yes', complete: 'no' },
+    { present: 'no',  complete: 'no' },
+    { present: 'yes', complete: 'no' },
+    { present: 'yes', complete: 'no' },
+    { present: 'yes', complete: 'no' },
+    { present: 'yes', complete: 'no' },
+  ];
+
+  function getSelected(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  function checkAnswers() {
+    const rows = document.querySelectorAll('#checklist-table tbody tr');
+    let correct = 0;
+    let total = 0;
+    let unanswered = false;
+
+    rows.forEach((row, i) => {
+      const pVal = getSelected(`p${i + 1}`);
+      const cVal = getSelected(`c${i + 1}`);
+
+      // Clear previous badges
+      const label = row.querySelector('td:first-child');
+      label.querySelectorAll('.badge').forEach(b => b.remove());
+
+      if (pVal === null || cVal === null) {
+        unanswered = true;
+        row.classList.remove('row-correct', 'row-wrong');
+        return;
+      }
+
+      const pCorrect = pVal === answers[i].present;
+      const cCorrect = cVal === answers[i].complete;
+      const rowCorrect = pCorrect && cCorrect;
+      total++;
+
+      row.classList.toggle('row-correct', rowCorrect);
+      row.classList.toggle('row-wrong', !rowCorrect);
+
+      const badge = document.createElement('span');
+      badge.className = `badge ${rowCorrect ? 'badge-correct' : 'badge-wrong'}`;
+      badge.textContent = rowCorrect ? '✓ Correct' : '✗ Review';
+      label.appendChild(badge);
+
+      if (rowCorrect) correct++;
+    });
+
+    const banner = document.getElementById('feedback-banner');
+    banner.style.display = 'block';
+
+    if (unanswered) {
+      banner.className = 'fb-partial';
+      banner.innerHTML = '⚠️ <strong>Some rows are unanswered.</strong> Make sure you\'ve selected Yes/No for both columns on every row, then check again.';
+      return;
+    }
+
+    const pct = Math.round((correct / total) * 100);
+
+    if (correct === total) {
+      banner.className = 'fb-perfect';
+      banner.innerHTML = `🎉 <strong>Perfect score! ${correct}/${total} rows correct.</strong> You correctly identified all present and complete elements. Click "Show Answer Key" to read the instructor feedback.`;
+    } else {
+      banner.className = 'fb-partial';
+      banner.innerHTML = `📝 <strong>Score: ${correct}/${total} rows fully correct (${pct}%).</strong> Rows highlighted in red need another look. Use the Answer Key to compare your thinking with the instructor's feedback.`;
+    }
+  }
+
+  function toggleAnswerKey() {
+    const ak = document.getElementById('answer-key');
+    const visible = ak.style.display === 'block';
+    ak.style.display = visible ? 'none' : 'block';
+    if (!visible) ak.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function resetAll() {
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('textarea').forEach(t => t.value = '');
+    document.querySelectorAll('#checklist-table tbody tr').forEach(row => {
+      row.classList.remove('row-correct', 'row-wrong');
+      row.querySelectorAll('.badge').forEach(b => b.remove());
+    });
+    const banner = document.getElementById('feedback-banner');
+    banner.style.display = 'none';
+    banner.textContent = '';
+    document.getElementById('answer-key').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
