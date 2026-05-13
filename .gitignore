@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Logs
+*.log
+
+# OS temp files
+Thumbs.db
+ehthumbs.db
+
+# Python artifacts (if any scripts are added later)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv/
+/tmp/
